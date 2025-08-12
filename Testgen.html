@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UPSC Prelims Custom Test Generator</title>
+<style>
+  :root{
+    --bg:#0f172a; --card:#111827; --ink:#e5e7eb; --ink-dim:#9ca3af;
+    --accent:#2563eb; --accent-2:#1d4ed8; --good:#16a34a; --bad:#dc2626;
+    --muted:#1f2937; --chip:#0b1222; --shadow:0 10px 30px rgba(0,0,0,.25); --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background: radial-gradient(1200px 600px at 20% -10%, #0b1222 10%, transparent 60%) no-repeat,
+                radial-gradient(900px 600px at 120% 10%, #0b1222 10%, transparent 60%) no-repeat,
+                var(--bg);
+    color:var(--ink); line-height:1.55;
+  }
+  a{ color:#93c5fd; text-decoration:none }
+  .wrap{ max-width: 1024px; margin: 28px auto; padding: 0 16px 48px; }
+  header{ display:flex; gap:12px; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom: 18px; }
+  .title{ font-size: clamp(20px, 3vw, 34px); font-weight: 800; letter-spacing:.2px; }
+  .subtitle{ color: var(--ink-dim); font-size: clamp(14px, 2vw, 16px); margin-top:4px; }
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .btn{
+    appearance:none; border:0; cursor:pointer; font-weight:800; letter-spacing:.3px;
+    padding: 12px 14px; border-radius: 12px; transition: transform .05s ease, opacity .2s ease;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-2) 100%); color:white;
+    box-shadow: 0 10px 20px rgba(37,99,235,.25);
+  }
+  .btn:active{ transform: translateY(1px); }
+  .btn.secondary{ background:#0b1222; color:#cbd5e1; border:1px solid #223056; box-shadow:none; }
+  .btn.ghost{ background:transparent; color:#cbd5e1; border:1px solid #223056; }
+  .pill{ display:inline-flex; align-items:center; gap:8px; font-size: 13px; padding: 6px 10px; border-radius: 999px; border:1px solid; margin-right:8px; margin-top:6px; }
+  .good{ background: rgba(22,163,74,.12); border-color: rgba(22,163,74,.5); color:#86efac; }
+  .bad{ background: rgba(220,38,38,.12); border-color: rgba(220,38,38,.5); color:#fecaca; }
+  .neutral{ background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.4); color:#bfdbfe; }
+  .q-id{ display:inline-block; font-size:12px; color:#93c5fd; background:#0b1222; border:1px solid #1f3b73; padding:2px 8px; border-radius:999px; margin-right:8px; }
+  .section{ margin-top: 18px; }
+
+  /* Cards */
+  .card{
+    background: linear-gradient(180deg, #111827 0%, #0d1424 100%);
+    border: 1px solid #223056; border-radius: var(--radius);
+    box-shadow: var(--shadow); padding: 16px;
+  }
+  .error{ margin-top:8px; color: var(--bad); font-weight:600; }
+
+  /* HOME */
+  #home{ display:block; }
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 8px; }
+  .select, .input{
+    background:#0b1222; color:#e5e7eb; border:1px solid #223056; border-radius: 10px; padding:10px 12px;
+  }
+  .grid{ display:grid; gap:12px; grid-template-columns: repeat(12, 1fr); margin-top: 12px; }
+  .test-item{
+    grid-column: span 12; background: linear-gradient(180deg, #101925 0%, #0c1320 100%); border:1px solid #223056;
+    border-radius: 14px; padding: 14px; display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center;
+  }
+  .test-meta{ color:#9ca3af; font-size: 13px; }
+  .badge{ display:inline-block; padding:4px 8px; border-radius: 999px; border:1px solid #1f3b73; background:#0b1222; color:#93c5fd; font-size:12px; margin-right:6px; }
+  .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+  .num{ font-weight:800; }
+  @media(min-width:720px){ .test-item{ grid-template-columns: 1fr auto auto; } }
+  @media(min-width:840px){ .grid .col-6{ grid-column: span 6; } .grid .col-4{ grid-column: span 4; } .grid .col-3{ grid-column: span 3; } }
+
+  /* UPLOADER / NEW TEST */
+  .uploader{ display:none; margin-top: 16px; }
+  .uploader .row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+  input[type="file"]{ display:none; }
+  .file-label{ display:inline-flex; align-items:center; gap:10px; background: var(--accent); color:white; padding: 12px 16px; border-radius: 12px; font-weight: 700; cursor: pointer; border: 0; }
+  .file-hint{ color: var(--ink-dim); font-size: 14px; }
+  .name-input{ min-width: 220px; }
+  .subject-select{ min-width: 200px; }
+
+  /* TEST */
+  #testArea{ margin-top:18px; display:none; }
+  .q-card{ background: linear-gradient(180deg, #101925 0%, #0c1320 100%); border: 1px solid #223056; border-radius: var(--radius); padding: 18px; margin: 14px 0; box-shadow: var(--shadow); }
+  .q-head{ font-weight: 700; font-size: 17px; margin-bottom: 10px; }
+  .options{ display:grid; gap:10px; margin-top:8px; }
+  .opt{ display:flex; gap:10px; align-items:flex-start; background:#0b1222; border:1px solid #1f3b73; border-radius:12px; padding:10px 12px; }
+  .opt:hover{ border-color:#2a56a7; }
+  .submit-wrap{ position: sticky; bottom: 12px; display:flex; justify-content:flex-end; margin-top:20px; z-index:5; }
+  .hidden{ display:none !important; }
+
+  /* RESULTS */
+  #results{ display:none; margin-top:18px; }
+  .score-card{ background: linear-gradient(180deg, #0f1a2b 0%, #0a1220 100%); border:1px solid #24406f; border-radius: var(--radius); padding: 18px; box-shadow: var(--shadow); }
+  .score{ font-size: clamp(22px, 4vw, 34px); font-weight: 900; }
+  .pass{ color: var(--good); } .fail{ color: var(--bad); }
+  .meta{ color: var(--ink-dim); margin-top:6px; }
+  .message{ margin-top:12px; font-weight:700; }
+  .analysis{ margin-top:18px; }
+  .a-card{ background: linear-gradient(180deg, #0e1727 0%, #0a111f 100%); border:1px solid #223056; border-radius: 14px; padding: 14px; margin: 12px 0; }
+  .a-q{ font-weight: 700; margin-bottom:8px; }
+  .counts{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
+  .count-chip{ background:#0b1222; border:1px solid #1f3b73; border-radius: 10px; padding:6px 10px; color:#cbd5e1; font-weight:700; }
+
+  @media(max-width:640px){ .submit-wrap{ position: static; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="title">UPSC Prelims Custom Test Generator</div>
+      <div class="subtitle">Home, History & Sorting • Take tests, get instant analysis, and keep your progress saved locally.</div>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="newTestBtn">+ New Test</button>
+      <button class="btn secondary" id="goHomeBtn" title="Go to Home">🏠 Home</button>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <section id="home" class="section">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
+        <strong>My Tests (saved on this device)</strong>
+        <div class="filters">
+          <select id="subjectFilter" class="select">
+            <option value="ALL">All Subjects</option>
+          </select>
+          <select id="sortBy" class="select">
+            <option value="date_desc">Sort: Date (new → old)</option>
+            <option value="date_asc">Sort: Date (old → new)</option>
+            <option value="score_desc">Sort: Score (high → low)</option>
+            <option value="score_asc">Sort: Score (low → high)</option>
+            <option value="pct_desc">Sort: % (high → low)</option>
+            <option value="pct_asc">Sort: % (low → high)</option>
+            <option value="name_asc">Sort: Name (A → Z)</option>
+            <option value="name_desc">Sort: Name (Z → A)</option>
+          </select>
+          <input id="searchByName" class="input" type="search" placeholder="Search by name…" />
+        </div>
+      </div>
+
+      <div id="homeEmpty" class="section" style="color:#9ca3af; display:none">
+        No tests yet. Click <b>+ New Test</b> to upload a JSON and start.
+      </div>
+
+      <div id="testsList" class="grid"></div>
+    </div>
+
+    <div class="section card">
+      <details>
+        <summary><strong>How saving works</strong></summary>
+        <p style="color:#9ca3af">
+          Your tests are saved to your browser’s local storage on this device. Clearing site data or switching browsers/devices will remove them.
+        </p>
+      </details>
+    </div>
+
+    <div class="section card">
+      <strong>Sample JSON (10 UPSC‑style MCQs)</strong>
+      <p class="test-meta">Save this as <code>sample_upsc_mcqs.json</code> and use it with “New Test”.</p>
+      <pre style="white-space:pre-wrap;color:#cbd5e1;background:#0b1222;border:1px solid #1f3b73;border-radius:12px;padding:12px;max-height:360px;overflow:auto" id="sampleJson"></pre>
+    </div>
+  </section>
+
+  <!-- NEW TEST / UPLOADER -->
+  <section id="uploaderSec" class="uploader card" aria-label="Upload JSON section">
+    <div class="row" style="margin-bottom:8px">
+      <input id="jsonInput" type="file" accept=".json,application/json" />
+      <label for="jsonInput" class="file-label" title="Choose a .json file">📤 Upload Question Paper (JSON)</label>
+      <span class="file-hint">Only <code>.json</code> files. The file should be an array of question objects.</span>
+    </div>
+    <div class="row">
+      <input id="testName" class="input name-input" type="text" placeholder="Test name (e.g., Polity Set-1)" />
+      <select id="testSubject" class="select subject-select"></select>
+      <button id="startTestBtn" class="btn" disabled>Start Test</button>
+      <button id="cancelUploadBtn" class="btn secondary">Cancel</button>
+    </div>
+    <div id="error" class="error" role="alert" aria-live="polite"></div>
+  </section>
+
+  <!-- TEST AREA -->
+  <section id="testArea" aria-live="polite">
+    <div id="testHeader" class="card" style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap">
+      <div>
+        <div><strong id="activeTestName">—</strong> <span class="badge" id="activeTestSubject">—</span></div>
+        <div class="test-meta" id="activeTestMeta">Answer all questions and hit Submit.</div>
+      </div>
+      <div class="test-meta" id="activeTimer"></div>
+    </div>
+
+    <div id="testList"></div>
+
+    <div class="submit-wrap">
+      <button id="submitBtn" class="btn">Submit Test</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results">
+    <div class="score-card">
+      <div class="score" id="scoreDisplay">Your Score: –</div>
+      <div class="meta" id="metaDisplay"></div>
+      <div class="message" id="messageDisplay"></div>
+      <div class="counts" id="countsDisplay"></div>
+
+      <div class="legend" style="margin-top:10px;">
+        <span class="pill good">✔️ Correct highlighted in green</span>
+        <span class="pill bad">❌ Incorrect highlighted in red</span>
+        <span class="pill neutral">ℹ️ Unattempted shows only the correct answer</span>
+      </div>
+    </div>
+
+    <div class="analysis" id="analysisList"></div>
+
+    <div class="submit-wrap" style="justify-content:space-between">
+      <button id="retakeBtn" class="btn secondary">Back to Home</button>
+      <button id="scrollTopBtn" class="btn secondary">Back to Top</button>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  /* ========= Subjects ========= */
+  const SUBJECTS = [
+    "History","Geography","Polity","Environment","General",
+    "CSAT","Art & Culture","Current Affairs","Economics","Science & Tech"
+  ];
+
+  /* ========= DOM ========= */
+  const homeSec = document.getElementById('home');
+  const uploaderSec = document.getElementById('uploaderSec');
+  const testArea = document.getElementById('testArea');
+  const resultsSec = document.getElementById('results');
+
+  const newTestBtn = document.getElementById('newTestBtn');
+  const goHomeBtn = document.getElementById('goHomeBtn');
+
+  const testsList = document.getElementById('testsList');
+  const subjectFilter = document.getElementById('subjectFilter');
+  const sortBy = document.getElementById('sortBy');
+  const searchByName = document.getElementById('searchByName');
+  const homeEmpty = document.getElementById('homeEmpty');
+
+  const jsonInput = document.getElementById('jsonInput');
+  const errorEl = document.getElementById('error');
+  const startTestBtn = document.getElementById('startTestBtn');
+  const cancelUploadBtn = document.getElementById('cancelUploadBtn');
+  const testNameEl = document.getElementById('testName');
+  const testSubjectEl = document.getElementById('testSubject');
+
+  const testList = document.getElementById('testList');
+  const submitBtn = document.getElementById('submitBtn');
+  const activeTestName = document.getElementById('activeTestName');
+  const activeTestSubject = document.getElementById('activeTestSubject');
+  const activeTestMeta = document.getElementById('activeTestMeta');
+  const activeTimer = document.getElementById('activeTimer');
+
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const metaDisplay = document.getElementById('metaDisplay');
+  const messageDisplay = document.getElementById('messageDisplay');
+  const countsDisplay = document.getElementById('countsDisplay');
+  const analysisList = document.getElementById('analysisList');
+  const retakeBtn = document.getElementById('retakeBtn');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+  const sampleJsonPre = document.getElementById('sampleJson');
+
+  /* ========= State ========= */
+  let questions = [];
+  let selections = new Map();
+  let loadedFileName = '';
+  let currentSession = null; // {id, name, subject, startedAt}
+  let timerInterval = null;
+  const MARKS_CORRECT = 2.0;
+  const PENALTY_WRONG = 0.66;
+  const PASS_PERCENT = 33;
+
+  /* ========= Storage ========= */
+  function getStore(){
+    try{
+      const raw = localStorage.getItem('upsc_tests');
+      return raw ? JSON.parse(raw) : [];
+    }catch(e){ return []; }
+  }
+  function setStore(arr){
+    localStorage.setItem('upsc_tests', JSON.stringify(arr));
+  }
+  function saveResultToStore(resultObj){
+    const store = getStore();
+    store.unshift(resultObj); // newest first
+    setStore(store);
+  }
+  function updateTestNameInStore(id, newName){
+    const store = getStore();
+    const idx = store.findIndex(t => t.id === id);
+    if(idx >= 0){ store[idx].name = newName; setStore(store); }
+  }
+  function deleteFromStore(id){
+    const store = getStore().filter(t => t.id !== id);
+    setStore(store);
+  }
+  function getFromStore(id){
+    return getStore().find(t => t.id === id) || null;
+  }
+
+  /* ========= UI Helpers ========= */
+  function show(section){
+    // sections: home, uploaderSec, testArea, resultsSec
+    [homeSec,uploaderSec,testArea,resultsSec].forEach(s => s.style.display='none');
+    section.style.display = 'block';
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function escapeHTML(str){
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function fmtDate(ts){
+    const d = new Date(ts);
+    return d.toLocaleString();
+  }
+  function percent(score, total){ return Math.round((score/total)*10000)/100; }
+
+  function countChip(text){
+    const el = document.createElement('div');
+    el.className = 'count-chip';
+    el.textContent = text;
+    return el;
+  }
+  function pill(text, cls){
+    const el = document.createElement('span');
+    el.className = `pill ${cls}`;
+    el.textContent = text;
+    return el;
+  }
+
+  /* ========= Home Render ========= */
+  function ensureSubjectOptions(){
+    // Filter dropdown
+    subjectFilter.innerHTML = '<option value="ALL">All Subjects</option>';
+    SUBJECTS.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      subjectFilter.appendChild(opt);
+    });
+    // New test subject select
+    testSubjectEl.innerHTML = '';
+    SUBJECTS.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      testSubjectEl.appendChild(opt);
+    });
+  }
+
+  function renderHome(){
+    const store = getStore();
+    testsList.innerHTML = '';
+    let filtered = store.slice();
+
+    const f = subjectFilter.value;
+    if(f !== 'ALL'){
+      filtered = filtered.filter(t => t.subject === f);
+    }
+    const q = searchByName.value.trim().toLowerCase();
+    if(q){
+      filtered = filtered.filter(t => (t.name||'').toLowerCase().includes(q));
+    }
+
+    switch(sortBy.value){
+      case 'date_desc': filtered.sort((a,b)=> b.submittedAt - a.submittedAt); break;
+      case 'date_asc': filtered.sort((a,b)=> a.submittedAt - b.submittedAt); break;
+      case 'score_desc': filtered.sort((a,b)=> b.score - a.score); break;
+      case 'score_asc': filtered.sort((a,b)=> a.score - b.score); break;
+      case 'pct_desc': filtered.sort((a,b)=> (b.score/b.totalMarks)-(a.score/a.totalMarks)); break;
+      case 'pct_asc': filtered.sort((a,b)=> (a.score/a.totalMarks)-(b.score/b.totalMarks)); break;
+      case 'name_asc': filtered.sort((a,b)=> (a.name||'').localeCompare(b.name||'')); break;
+      case 'name_desc': filtered.sort((a,b)=> (b.name||'').localeCompare(a.name||'')); break;
+    }
+
+    if(filtered.length === 0){
+      homeEmpty.style.display = 'block';
+      return;
+    } else {
+      homeEmpty.style.display = 'none';
+    }
+
+    filtered.forEach(t => {
+      const pct = percent(t.score, t.totalMarks).toFixed(2);
+      const item = document.createElement('div');
+      item.className = 'test-item';
+
+      const left = document.createElement('div');
+      const name = document.createElement('div');
+      name.innerHTML = `<strong class="num">${escapeHTML(t.name || '(unnamed test)')}</strong> <span class="badge">${escapeHTML(t.subject)}</span>`;
+      left.appendChild(name);
+
+      const meta = document.createElement('div');
+      meta.className = 'test-meta';
+      meta.innerHTML = `Score: <b>${t.score}</b> / ${t.totalMarks} • ${pct}% • Correct ${t.correct}, Wrong ${t.wrong}, Unattempted ${t.unattempted} • Taken: ${fmtDate(t.submittedAt)}`;
+      left.appendChild(meta);
+
+      const mid = document.createElement('div');
+      mid.innerHTML = t.score >= t.passMark
+        ? `<span class="pill good">✅ Passed</span>`
+        : `<span class="pill bad">⚠️ Below 33%</span>`;
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const viewBtn = mkAction('View Report', () => openSavedReport(t.id));
+      const renameBtn = mkAction('Rename', () => doRename(t.id, t.name));
+      const delBtn = mkAction('Delete', () => { if(confirm('Delete this test?')){ deleteFromStore(t.id); renderHome(); } });
+      actions.append(viewBtn, renameBtn, delBtn);
+
+      item.appendChild(left);
+      item.appendChild(mid);
+      item.appendChild(actions);
+
+      testsList.appendChild(item);
+    });
+  }
+
+  function mkAction(label, fn){
+    const b = document.createElement('button');
+    b.className = 'btn ghost';
+    b.textContent = label;
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  function doRename(id, oldName){
+    const nn = prompt('Enter new name:', oldName || '');
+    if(nn !== null){
+      updateTestNameInStore(id, nn.trim());
+      renderHome();
+    }
+  }
+
+  function openSavedReport(id){
+    const t = getFromStore(id);
+    if(!t){ alert('Not found'); return; }
+    // Rehydrate questions & selections to render analysis
+    renderReport(t.name, t.subject, t.questions, new Map(t.selections || []), t.score, t.correct, t.wrong, t.unattempted, t.totalMarks, t.passMark, t.submittedAt);
+  }
+
+  /* ========= New Test Flow ========= */
+  newTestBtn.addEventListener('click', () => {
+    resetUploader();
+    show(uploaderSec);
+  });
+  goHomeBtn.addEventListener('click', () => show(homeSec));
+  cancelUploadBtn.addEventListener('click', () => show(homeSec));
+
+  function resetUploader(){
+    errorEl.textContent = '';
+    jsonInput.value = '';
+    testNameEl.value = '';
+    testSubjectEl.value = SUBJECTS[0];
+    startTestBtn.disabled = true;
+    questions = [];
+    selections.clear();
+    currentSession = null;
+  }
+
+  // Enable start when we have both JSON and a name
+  function updateStartBtn(){
+    startTestBtn.disabled = !(questions.length && testNameEl.value.trim());
+  }
+  testNameEl.addEventListener('input', updateStartBtn);
+  testSubjectEl.addEventListener('change', ()=>{});
+
+  document.querySelector('.file-label').addEventListener('click', () => jsonInput.click());
+  jsonInput.addEventListener('change', async (e) => {
+    errorEl.textContent = '';
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    const isJSONExt = /\.json$/i.test(file.name);
+    if(!isJSONExt){ errorEl.textContent = 'Please upload a .json file.'; jsonInput.value = ''; return; }
+    try{
+      const text = await file.text();
+      const data = JSON.parse(text);
+      const err = validateQuestions(data);
+      if(err) throw new Error(err);
+      questions = data;
+      loadedFileName = file.name;
+      updateStartBtn();
+    }catch(err){
+      console.error(err);
+      errorEl.textContent = 'Invalid JSON: ' + (err?.message || 'Please check your file format.');
+      jsonInput.value = '';
+    }
+  });
+
+  startTestBtn.addEventListener('click', () => {
+    if(!questions.length) return;
+    selections.clear();
+    currentSession = {
+      id: genId(),
+      name: testNameEl.value.trim() || loadedFileName || 'Untitled Test',
+      subject: testSubjectEl.value,
+      startedAt: Date.now()
+    };
+    renderTest();
+    show(testArea);
+    startTimer();
+  });
+
+  /* ========= Validation ========= */
+  function validateQuestions(arr){
+    if(!Array.isArray(arr) || arr.length === 0) return 'JSON must be a non-empty array.';
+    for(const [idx,q] of arr.entries()){
+      if(typeof q !== 'object' || q === null) return `Item at index ${idx} must be an object.`;
+      const {id, question, options, answer} = q;
+      if(typeof id !== 'number') return `Question at index ${idx} missing numeric "id".`;
+      if(typeof question !== 'string' || !question.trim()) return `Question ${id}: "question" must be a non-empty string.`;
+      if(!Array.isArray(options) || options.length !== 4) return `Question ${id}: "options" must be an array of four strings.`;
+      for(const [oi,opt] of options.entries()){
+        if(typeof opt !== 'string' || !opt.trim()) return `Question ${id}: option ${oi+1} must be a non-empty string.`;
+      }
+      if(typeof answer !== 'string' || !answer.trim()) return `Question ${id}: "answer" must be a non-empty string.`;
+      if(!options.includes(answer)) return `Question ${id}: "answer" must exactly match one of the options.`;
+    }
+    return null;
+  }
+
+  /* ========= Test Render ========= */
+  function renderTest(){
+    testList.innerHTML = '';
+    activeTestName.textContent = currentSession.name;
+    activeTestSubject.textContent = currentSession.subject;
+    activeTestMeta.textContent = `Questions: ${questions.length} • Negative marking: -0.66 for wrong • +2 for correct`;
+
+    for(const q of questions){
+      const card = document.createElement('div');
+      card.className = 'q-card';
+      const head = document.createElement('div');
+      head.className = 'q-head';
+      head.innerHTML = `<span class="q-id">Q${q.id}</span> ${escapeHTML(q.question)}`;
+      card.appendChild(head);
+
+      const opts = document.createElement('div');
+      opts.className = 'options';
+      const groupName = `q_${q.id}`;
+
+      q.options.forEach((opt, idx) => {
+        const optId = `${groupName}_opt_${idx}`;
+        const wrap = document.createElement('label');
+        wrap.className = 'opt'; wrap.setAttribute('for', optId);
+
+        const radio = document.createElement('input');
+        radio.type = 'radio'; radio.name = groupName; radio.id = optId; radio.value = opt;
+        radio.addEventListener('change', ()=> selections.set(q.id, opt));
+
+        const span = document.createElement('span');
+        span.textContent = opt;
+
+        wrap.append(radio, span);
+        opts.appendChild(wrap);
+      });
+
+      card.appendChild(opts);
+      testList.appendChild(card);
+    }
+  }
+
+  /* ========= Timer ========= */
+  function startTimer(){
+    stopTimer();
+    timerInterval = setInterval(()=>{
+      const elapsed = Date.now() - (currentSession?.startedAt || Date.now());
+      const mins = Math.floor(elapsed/60000);
+      const secs = Math.floor((elapsed%60000)/1000);
+      activeTimer.textContent = `Time: ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    },1000);
+  }
+  function stopTimer(){
+    if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  }
+
+  /* ========= Submit & Results ========= */
+  submitBtn.addEventListener('click', () => {
+    if(!questions.length) return;
+    const res = computeResults(questions, selections);
+    renderReport(
+      currentSession.name, currentSession.subject,
+      questions, selections, res.score, res.correct, res.wrong, res.unattempted, res.totalMarks, res.passMark, Date.now()
+    );
+    // Save to store
+    saveResultToStore({
+      id: currentSession.id,
+      name: currentSession.name,
+      subject: currentSession.subject,
+      submittedAt: Date.now(),
+      totalMarks: res.totalMarks, score: res.score, passMark: res.passMark,
+      correct: res.correct, wrong: res.wrong, unattempted: res.unattempted,
+      selections: Array.from(selections.entries()),
+      questions: questions
+    });
+    stopTimer();
+  });
+
+  function computeResults(questions, selections){
+    let correct = 0, wrong = 0, unattempted = 0;
+    for(const q of questions){
+      const chosen = selections.get(q.id);
+      if(typeof chosen === 'undefined') unattempted++;
+      else if(chosen === q.answer) correct++;
+      else wrong++;
+    }
+    const totalMarks = questions.length * MARKS_CORRECT;
+    const rawScore = (correct * MARKS_CORRECT) - (wrong * PENALTY_WRONG);
+    const score = Math.max(0, +rawScore.toFixed(2)); // clamp at 0
+    const passMark = +(totalMarks * (PASS_PERCENT/100)).toFixed(2);
+    return {correct, wrong, unattempted, score, totalMarks, passMark};
+  }
+
+  function renderReport(name, subject, questionsArr, selectionsMap, score, correct, wrong, unattempted, totalMarks, passMark, ts){
+    // Build analysis
+    analysisList.innerHTML = '';
+    for(const q of questionsArr){
+      const chosen = selectionsMap.get(q.id);
+      const isUnattempted = (typeof chosen === 'undefined');
+      const isCorrect = !isUnattempted && (chosen === q.answer);
+      const a = document.createElement('div'); a.className = 'a-card';
+      const qEl = document.createElement('div'); qEl.className = 'a-q';
+      qEl.innerHTML = `<span class="q-id">Q${q.id}</span> ${escapeHTML(q.question)}`;
+      a.appendChild(qEl);
+
+      if(isCorrect){
+        a.appendChild(pill(`✔️ Your answer: ${q.answer}`, 'good'));
+      }else if(isUnattempted){
+        a.appendChild(pill('— Unattempted', 'neutral'));
+        a.appendChild(pill(`✔️ Correct: ${q.answer}`, 'good'));
+      }else{
+        a.appendChild(pill(`❌ Your answer: ${chosen}`, 'bad'));
+        a.appendChild(pill(`✔️ Correct: ${q.answer}`, 'good'));
+      }
+      analysisList.appendChild(a);
+    }
+
+    const percentVal = +((score / totalMarks) * 100).toFixed(2);
+    const passed = score >= passMark;
+
+    scoreDisplay.innerHTML = `Your Score: <span class="${passed? 'pass':'fail'}">${score}</span> / ${totalMarks}`;
+    metaDisplay.textContent = `Test: ${name} • Subject: ${subject} • Correct: ${correct} | Wrong: ${wrong} | Unattempted: ${unattempted} | Percentage: ${percentVal}% | Passing Threshold (33%): ${passMark} • Taken: ${fmtDate(ts)}`;
+    countsDisplay.innerHTML = '';
+    countsDisplay.append(countChip(`✔️ Correct: ${correct}`), countChip(`❌ Wrong: ${wrong}`), countChip(`• Unattempted: ${unattempted}`));
+
+    messageDisplay.className = 'message ' + (passed? 'pass':'fail');
+    messageDisplay.textContent = passed
+      ? 'Congratulations! With scores like these, you will become an IAS officer soon! 🇮🇳'
+      : 'Keep pushing, your dream is within reach! Review your answers and try again. 💪';
+
+    // Show results
+    show(resultsSec);
+  }
+
+  function countChip(text){
+    const el = document.createElement('div');
+    el.className = 'count-chip';
+    el.textContent = text;
+    return el;
+  }
+
+  retakeBtn.addEventListener('click', () => {
+    show(homeSec);
+    renderHome();
+  });
+  scrollTopBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+  /* ========= Utils ========= */
+  function genId(){ return 'T' + Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+
+  /* ========= Initial Setup ========= */
+  ensureSubjectOptions();
+  renderHome();
+  show(homeSec);
+
+  // Put sample JSON in the Home page
+  const SAMPLE = [
+    {"id":1,"question":"Which of the following is described as the 'Soul of the Constitution' by the framers of the Indian Constitution?","options":["Right to Equality","Directive Principles of State Policy","Preamble","Right to Constitutional Remedies"],"answer":"Preamble"},
+    {"id":2,"question":"The 'Basic Structure' doctrine of the Constitution of India was first propounded by the Supreme Court in which case?","options":["Golaknath v. State of Punjab (1967)","Kesavananda Bharati v. State of Kerala (1973)","Minerva Mills v. Union of India (1980)","S.R. Bommai v. Union of India (1994)"],"answer":"Kesavananda Bharati v. State of Kerala (1973)"},
+    {"id":3,"question":"With reference to Indian economy, 'crowding out effect' is sometimes discussed. It refers to a situation where:","options":["Private investment increases due to higher public investment","Private investment decreases due to higher government borrowing","Foreign investment replaces domestic investment","Household consumption crowds out savings"],"answer":"Private investment decreases due to higher government borrowing"},
+    {"id":4,"question":"The Tropic of Cancer passes through which one of the following Indian states?","options":["Kerala","Odisha","Madhya Pradesh","Punjab"],"answer":"Madhya Pradesh"},
+    {"id":5,"question":"Who among the following started the newspaper 'Kesari'?","options":["Gopal Krishna Gokhale","Bal Gangadhar Tilak","Dadabhai Naoroji","Lala Lajpat Rai"],"answer":"Bal Gangadhar Tilak"},
+    {"id":6,"question":"Which of the following pair is correctly matched? (River : Tributary)","options":["Ganga : Chambal","Yamuna : Son","Godavari : Manjra","Brahmaputra : Betwa"],"answer":"Godavari : Manjra"},
+    {"id":7,"question":"In India, the term 'Fiscal Responsibility and Budget Management (FRBM) Act' is associated with:","options":["Reducing fiscal deficit and improving macroeconomic management","Promoting rural employment through guaranteed work","Regulating microfinance institutions","Managing public sector enterprise disinvestment"],"answer":"Reducing fiscal deficit and improving macroeconomic management"},
+    {"id":8,"question":"The 'Subsidiary Alliance' policy during the British period was mainly associated with which Governor-General?","options":["Lord Dalhousie","Lord Wellesley","Lord Hastings","Lord Cornwallis"],"answer":"Lord Wellesley"},
+    {"id":9,"question":"Which one of the following correctly describes a 'Western Disturbance'?","options":["A cyclonic circulation over the Bay of Bengal in summer","A low-pressure area over the Arabian Sea during monsoon onset","An extratropical storm embedded in the westerlies approaching India in winter","A tropical easterly wave bringing rain to Peninsular India"],"answer":"An extratropical storm embedded in the westerlies approaching India in winter"},
+    {"id":10,"question":"The Nehru Report (1928) is significant because it:","options":["Proposed the idea of 'Purna Swaraj' as immediate goal","Rejected Dominion Status and demanded complete independence","Was the first major attempt by Indians to frame a constitutional scheme","Led to the signing of the Gandhi–Irwin Pact"],"answer":"Was the first major attempt by Indians to frame a constitutional scheme"}
+  ];
+  sampleJsonPre.textContent = JSON.stringify(SAMPLE, null, 2);
+
+})();
+</script>
+</body>
+</html>
