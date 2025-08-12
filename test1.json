@@ -1,0 +1,302 @@
+[
+  {
+    "id": 1,
+    "question": "Which of the following statements about Qutbuddin Aibak is/are correct?\n1. He laid the foundation of the Qutub Minar.\n2. He died while playing polo.\n3. He was called Lakhbaksh for his generosity.",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1, 2 and 3"
+  },
+  {
+    "id": 2,
+    "question": "Consider the following statements about Iltutmish:\n1. He completed the construction of Qutub Minar.\n2. He introduced the Iqta system in a systematic manner.\n3. He refused to give refuge to the Abbasid Caliph during Mongol attacks.\nWhich of the above is/are incorrect?",
+    "options": ["1 only", "3 only", "1 and 3 only", "None of the above"],
+    "answer": "3 only"
+  },
+  {
+    "id": 3,
+    "question": "With reference to the 'Chahalgani' or 'Turkan-i-Chahalgani', consider the following:\n1. It was created by Iltutmish.\n2. It consisted exclusively of non-Turkish nobles.\n3. It lost its political importance during Balban's reign.\nWhich of the above statements is/are correct?",
+    "options": ["1 and 2 only", "1 and 3 only", "2 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 3 only"
+  },
+  {
+    "id": 4,
+    "question": "Raziya Sultan faced opposition from:\n1. Turkish nobles\n2. Orthodox ulema\n3. Mongol invaders\nChoose the correct answer:",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 5,
+    "question": "Which of the following administrative measures is/are correctly attributed to Balban?\n1. Establishment of Diwan-i-Arz for army affairs.\n2. Use of spies (Barids) for intelligence.\n3. Elimination of Chahalgani.\nSelect the correct answer:",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "2 and 3 only"
+  },
+  {
+    "id": 6,
+    "question": "Identify the INCORRECT pair of ruler and associated title/policy:\n1. Balban – Zill-i-Ilahi\n2. Iltutmish – Nasiri coins\n3. Qutbuddin Aibak – Construction of Arhai din ka Jhopra",
+    "options": ["1 only", "2 only", "3 only", "None of the above"],
+    "answer": "None of the above"
+  },
+  {
+    "id": 7,
+    "question": "Consider the following statements regarding Balban's policy of 'Blood and Iron':\n1. It was aimed at consolidating the Sultan's authority.\n2. It included harsh punishments for rebellion.\n3. It allowed nobles greater autonomy.\nWhich of the above are correct?",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 8,
+    "question": "Which of the following is/are true about Raziya Sultan?\n1. She appointed an Abyssinian noble as her confidant.\n2. She dressed like a man while leading armies.\n3. She was deposed by Balban.\nSelect the correct answer:",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 9,
+    "question": "Which of these are correctly matched with their architectural works?\n1. Qutbuddin Aibak – Quwwat-ul-Islam mosque\n2. Iltutmish – Hauz-i-Shamsi\n3. Balban – Siri Fort",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 10,
+    "question": "Which of the following were causes for decline of Turkish nobility's power under Balban?\n1. Deliberate exclusion from key offices\n2. Creation of new nobility of Afghan origin\n3. Strengthening of central army",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 3 only"
+  },
+  {
+    "id": 11,
+    "question": "In the context of Delhi Sultanate (early period), 'Amir-i-Hajib' referred to:",
+    "options": ["Chief justice", "Master of ceremonies", "Revenue collector", "Commander of the army"],
+    "answer": "Master of ceremonies"
+  },
+  {
+    "id": 12,
+    "question": "Which of the following statements regarding Iltutmish's monetary reforms is/are correct?\n1. He introduced silver tanka.\n2. He introduced copper jital.\n3. He abolished all local currencies immediately.",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 13,
+    "question": "Consider the following about Balban’s military measures:\n1. Reorganization of frontier provinces.\n2. Strengthening of forts against Mongols.\n3. Abolition of paibos (prostration before Sultan).",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 14,
+    "question": "Which of these Sultans had a background as a slave before ascending the throne?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "All of the above"],
+    "answer": "All of the above"
+  },
+  {
+    "id": 15,
+    "question": "Which of these were functions of the Muqti in the Iqta system?\n1. Collection of revenue\n2. Maintenance of troops\n3. Appointment of qazis in provinces",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 16,
+    "question": "Raziya’s reign ended because:\n1. Nobles opposed a female ruler.\n2. Her association with an Abyssinian noble.\n3. Mongol defeat at the frontier.",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 17,
+    "question": "Match the following:\nA. Qutbuddin Aibak – 1. Lakhbaksh\nB. Iltutmish – 2. Silver tanka\nC. Balban – 3. Blood and Iron policy",
+    "options": ["A-1, B-2, C-3", "A-2, B-1, C-3", "A-1, B-3, C-2", "A-3, B-1, C-2"],
+    "answer": "A-1, B-2, C-3"
+  },
+  {
+    "id": 18,
+    "question": "Which of the following territories were integrated into Delhi Sultanate under Iltutmish?\n1. Bengal\n2. Sindh\n3. Malwa",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 19,
+    "question": "Which of these measures was NOT taken by Balban to strengthen monarchy?",
+    "options": ["Claiming divine right", "Public display of humility", "Strict court etiquette", "Suppression of nobles’ power"],
+    "answer": "Public display of humility"
+  },
+  {
+    "id": 20,
+    "question": "The term 'Naib-i-Mamlakat' in Balban’s reign meant:",
+    "options": ["Deputy to the Sultan", "Commander of the army", "Chief Qazi", "Revenue minister"],
+    "answer": "Deputy to the Sultan"
+  },
+  {
+    "id": 21,
+    "question": "Which of the following statements about Qutbuddin Aibak's death is correct?",
+    "options": ["He died in battle against Khokhars", "He died while playing chaugān (polo)", "He was assassinated by Turkish nobles", "He died of illness during siege"],
+    "answer": "He died while playing chaugān (polo)"
+  },
+  {
+    "id": 22,
+    "question": "The 'Blood and Iron' policy under Balban involved:\n1. Harsh punishments for rebels.\n2. Centralization of power.\n3. Promotion of independent governors.\nWhich are correct?",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 23,
+    "question": "Which Sultan established the 'Diwan-i-Arz' to handle military administration?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 24,
+    "question": "Who shifted the capital temporarily from Lahore to Delhi?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 25,
+    "question": "Which Sultan is credited with introducing the Persian wheel for irrigation?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "None of the above"],
+    "answer": "None of the above"
+  },
+  {
+    "id": 26,
+    "question": "Who among the following suppressed the revolt of Tughril Khan in Bengal?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 27,
+    "question": "The Mongol invasions during the early Delhi Sultanate were repelled primarily during the reign of:",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 28,
+    "question": "The title of Sultan was formally assumed by which early Delhi Sultan after receiving a robe of investiture from the Caliph?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Iltutmish"
+  },
+  {
+    "id": 29,
+    "question": "Which Sultan constructed the Hauz-i-Shamsi water reservoir?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Iltutmish"
+  },
+  {
+    "id": 30,
+    "question": "Balban's court etiquette included:\n1. Sijda (prostration)\n2. Paibos (kissing the feet)\n3. Public access to the Sultan without restriction",
+    "options": ["1 and 2 only", "2 and 3 only", "1 and 3 only", "1, 2 and 3"],
+    "answer": "1 and 2 only"
+  },
+  {
+    "id": 31,
+    "question": "Who among the following was called 'Lakhbaksh'?",
+    "options": ["Qutbuddin Aibak", "Iltutmish", "Balban", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 32,
+    "question": "Which early Delhi Sultan took steps to reorganize the army and frontier garrisons against Mongol incursions?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 33,
+    "question": "The Quwwat-ul-Islam mosque was built by:",
+    "options": ["Qutbuddin Aibak", "Iltutmish", "Balban", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 34,
+    "question": "Who abolished the Chahalgani to strengthen the Sultan's position?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 35,
+    "question": "Which Sultan refused asylum to Jalaluddin Mangbarni, the Khwarazm ruler fleeing Mongols?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Iltutmish"
+  },
+  {
+    "id": 36,
+    "question": "The iqta system introduced by Iltutmish primarily aimed to:",
+    "options": ["Ensure regular revenue to the Sultanate", "Grant land ownership to nobles", "Promote agricultural development", "Privatize land revenue"],
+    "answer": "Ensure regular revenue to the Sultanate"
+  },
+  {
+    "id": 37,
+    "question": "Balban strengthened the Sultanate's frontiers particularly in which region?",
+    "options": ["North-West", "Bengal", "Deccan", "Rajasthan"],
+    "answer": "North-West"
+  },
+  {
+    "id": 38,
+    "question": "The construction of Arhai Din ka Jhopra at Ajmer is credited to:",
+    "options": ["Qutbuddin Aibak", "Iltutmish", "Balban", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 39,
+    "question": "The formal investiture of Iltutmish by the Caliph took place in which year?",
+    "options": ["1229 CE", "1210 CE", "1240 CE", "1266 CE"],
+    "answer": "1229 CE"
+  },
+  {
+    "id": 40,
+    "question": "Balban's reign is marked by suppression of which notable rebellion in Bengal?",
+    "options": ["Tughril Khan’s revolt", "Ikhtiyaruddin rebellion", "Ghiyasuddin revolt", "Ali Mardan Khan’s rebellion"],
+    "answer": "Tughril Khan’s revolt"
+  },
+  {
+    "id": 41,
+    "question": "Which Sultan shifted his base from Ghazni to India permanently?",
+    "options": ["Qutbuddin Aibak", "Iltutmish", "Balban", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 42,
+    "question": "The post of Naib-i-Mamlakat was created by which Sultan?",
+    "options": ["Balban", "Iltutmish", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 43,
+    "question": "Which Sultan emphasized on the theory of kingship as the shadow of God?",
+    "options": ["Balban", "Iltutmish", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 44,
+    "question": "The introduction of copper jitals was done by:",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Iltutmish"
+  },
+  {
+    "id": 45,
+    "question": "Who was the first Sultan to appoint Indian Muslims to high administrative posts?",
+    "options": ["Iltutmish", "Balban", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Iltutmish"
+  },
+  {
+    "id": 46,
+    "question": "Which ruler took the title 'Ghiyas-ud-din' upon accession?",
+    "options": ["Balban", "Iltutmish", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 47,
+    "question": "Balban's reign saw the strengthening of which province as a military frontier against Mongols?",
+    "options": ["Punjab", "Sindh", "Bengal", "Malwa"],
+    "answer": "Punjab"
+  },
+  {
+    "id": 48,
+    "question": "The founder of the Slave dynasty was:",
+    "options": ["Qutbuddin Aibak", "Iltutmish", "Balban", "Raziya Sultan"],
+    "answer": "Qutbuddin Aibak"
+  },
+  {
+    "id": 49,
+    "question": "Which Sultan abolished wine-drinking and luxurious living among nobles?",
+    "options": ["Balban", "Iltutmish", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  },
+  {
+    "id": 50,
+    "question": "The policy of appointing only loyal and experienced officers in frontier provinces was implemented by:",
+    "options": ["Balban", "Iltutmish", "Qutbuddin Aibak", "Raziya Sultan"],
+    "answer": "Balban"
+  }
+]
